@@ -1,0 +1,1086 @@
+<?xml version="1.0"?>
+<flowgorithm fileversion="2.11">
+    <attributes>
+        <attribute name="name" value=""/>
+        <attribute name="authors" value="VISWAA"/>
+        <attribute name="about" value=""/>
+        <attribute name="saved" value="2022-02-03 03:06:30 PM"/>
+        <attribute name="created" value="VklTV0FBO1ZJU1dBQS1QQzsyMDIxLTEyLTI3OzA5OjI4OjE0IEFNOzIzODA="/>
+        <attribute name="edited" value="VklTV0FBO1ZJU1dBQS1QQzsyMDIyLTAyLTAzOzAzOjA2OjMwIFBNOzEzNDsyNTg4"/>
+    </attributes>
+    <function name="Main" type="None" variable="">
+        <parameters/>
+        <body>
+            <call expression="MainMenu"/>
+        </body>
+    </function>
+    <function name="ASSIGN" type="String" variable="RESULT">
+        <parameters>
+            <parameter name="T" type="String" array="True"/>
+            <parameter name="n" type="Integer" array="False"/>
+            <parameter name="row" type="Integer" array="False"/>
+            <parameter name="column" type="Integer" array="False"/>
+            <parameter name="pos" type="String" array="False"/>
+        </parameters>
+        <body>
+            <declare name="RESULT, QUERY" type="String" array="False" size=""/>
+            <do expression="QUERY==&quot;INVALID&quot;">
+                <assign variable="QUERY" expression="&quot;TEMP&quot;"/>
+                <if expression="T[n*row+column]==&quot;_&quot;">
+                    <then>
+                        <assign variable="T[n*row+column]" expression="pos"/>
+                        <assign variable="RESULT" expression="CHECK(T,n)"/>
+                    </then>
+                    <else>
+                        <output expression="&quot;INVALID INPUT PLEASE ENTER AGAIN&quot;" newline="False"/>
+                        <assign variable="QUERY" expression="&quot;INVALID&quot;"/>
+                    </else>
+                </if>
+            </do>
+        </body>
+    </function>
+    <function name="CHECK" type="String" variable="RESULT">
+        <parameters>
+            <parameter name="T" type="String" array="True"/>
+            <parameter name="n" type="Integer" array="False"/>
+        </parameters>
+        <body>
+            <declare name="RESULT, TEMPRES" type="String" array="False" size=""/>
+            <assign variable="RESULT" expression="CHECKROW(T,n)"/>
+            <assign variable="TEMPRES" expression="&quot;TEMP&quot;"/>
+            <if expression="RESULT!=&quot;OVER&quot;">
+                <then>
+                    <if expression="RESULT==&quot;DRAW&quot;">
+                        <then>
+                            <assign variable="TEMPRES" expression="&quot;DRAW&quot;"/>
+                        </then>
+                        <else/>
+                    </if>
+                    <assign variable="RESULT" expression="CHECKCLM(T,n)"/>
+                    <if expression="RESULT==&quot;NOTOVER&quot;&amp;&amp;TEMPRES==&quot;DRAW&quot;">
+                        <then>
+                            <assign variable="RESULT" expression="TEMPRES"/>
+                        </then>
+                        <else/>
+                    </if>
+                    <if expression="RESULT!=&quot;OVER&quot;">
+                        <then>
+                            <if expression="RESULT==&quot;DRAW&quot;">
+                                <then>
+                                    <assign variable="TEMPRES" expression="&quot;DRAW&quot;"/>
+                                </then>
+                                <else/>
+                            </if>
+                            <assign variable="RESULT" expression="CHECKDIG(T,n)"/>
+                            <if expression="RESULT==&quot;NOTOVER&quot;&amp;&amp;TEMPRES==&quot;DRAW&quot;">
+                                <then>
+                                    <assign variable="RESULT" expression="TEMPRES"/>
+                                </then>
+                                <else/>
+                            </if>
+                        </then>
+                        <else/>
+                    </if>
+                </then>
+                <else/>
+            </if>
+        </body>
+    </function>
+    <function name="CHECKCLM" type="String" variable="RESULT">
+        <parameters>
+            <parameter name="T" type="String" array="True"/>
+            <parameter name="n" type="Integer" array="False"/>
+        </parameters>
+        <body>
+            <declare name="i, j, sum" type="Integer" array="False" size=""/>
+            <declare name="RESULT" type="String" array="False" size=""/>
+            <assign variable="j" expression="0"/>
+            <assign variable="RESULT" expression="&quot;TEMP&quot;"/>
+            <while expression="RESULT!=&quot;OVER&quot;&amp;&amp;RESULT!=&quot;DRAW&quot;&amp;&amp;j&lt;n">
+                <assign variable="RESULT" expression="&quot;TEMP&quot;"/>
+                <assign variable="sum" expression="0"/>
+                <assign variable="i" expression="0"/>
+                <while expression="RESULT!=&quot;NOTOVER&quot;&amp;&amp;i&lt;n-1">
+                    <if expression="T[n*i+j]==T[n*(i+1)+j]">
+                        <then>
+                            <if expression="T[n*i+j]!=&quot;_&quot;&amp;&amp;T[n*(i+1)+j]!=&quot;_&quot;">
+                                <then>
+                                    <assign variable="RESULT" expression="&quot;OVER&quot;"/>
+                                </then>
+                                <else/>
+                            </if>
+                        </then>
+                        <else>
+                            <assign variable="RESULT" expression="&quot;NOTOVER&quot;"/>
+                        </else>
+                    </if>
+                    <assign variable="i" expression="i+1"/>
+                </while>
+                <if expression="RESULT==&quot;OVER&quot;">
+                    <then/>
+                    <else>
+                        <for variable="i" start="0" end="n-1" direction="inc" step="1">
+                            <for variable="j" start="0" end="n-1" direction="inc" step="1">
+                                <if expression="T[n*i+j]!=&quot;_&quot;">
+                                    <then>
+                                        <assign variable="sum" expression="sum+1"/>
+                                    </then>
+                                    <else/>
+                                </if>
+                            </for>
+                        </for>
+                        <if expression="sum==n*n">
+                            <then>
+                                <assign variable="RESULT" expression="&quot;DRAW&quot;"/>
+                            </then>
+                            <else>
+                                <assign variable="RESULT" expression="&quot;NOTOVER&quot;"/>
+                            </else>
+                        </if>
+                    </else>
+                </if>
+                <assign variable="j" expression="j+1"/>
+            </while>
+        </body>
+    </function>
+    <function name="CHECKDIG" type="String" variable="RESULT">
+        <parameters>
+            <parameter name="T" type="String" array="True"/>
+            <parameter name="n" type="Integer" array="False"/>
+        </parameters>
+        <body>
+            <declare name="i, j, sum" type="Integer" array="False" size=""/>
+            <declare name="RESULT, TEMPRES" type="String" array="False" size=""/>
+            <assign variable="i" expression="0"/>
+            <assign variable="RESULT" expression="&quot;TEMP&quot;"/>
+            <assign variable="TEMPRES" expression="&quot;TEMPVAL&quot;"/>
+            <assign variable="sum" expression="0"/>
+            <while expression="RESULT!=&quot;NOTOVER&quot;&amp;&amp;i&lt;n-1">
+                <if expression="T[n*i+i]==T[n*(i+1)+i+1]">
+                    <then>
+                        <if expression="T[n*i+i]!=&quot;_&quot;&amp;&amp;T[n*(i+1)+i+1]!=&quot;_&quot;">
+                            <then>
+                                <assign variable="RESULT" expression="&quot;OVER&quot;"/>
+                            </then>
+                            <else/>
+                        </if>
+                    </then>
+                    <else>
+                        <assign variable="RESULT" expression="&quot;NOTOVER&quot;"/>
+                    </else>
+                </if>
+                <assign variable="i" expression="i+1"/>
+            </while>
+            <if expression="RESULT==&quot;OVER&quot;">
+                <then/>
+                <else>
+                    <for variable="i" start="0" end="n-1" direction="inc" step="1">
+                        <for variable="j" start="0" end="n-1" direction="inc" step="1">
+                            <if expression="T[n*i+j]!=&quot;_&quot;">
+                                <then>
+                                    <assign variable="sum" expression="sum+1"/>
+                                </then>
+                                <else/>
+                            </if>
+                        </for>
+                    </for>
+                    <if expression="sum==(n*n)">
+                        <then>
+                            <assign variable="RESULT" expression="&quot;DRAW&quot;"/>
+                        </then>
+                        <else>
+                            <assign variable="RESULT" expression="&quot;NOTOVER&quot;"/>
+                        </else>
+                    </if>
+                </else>
+            </if>
+            <if expression="RESULT!=&quot;OVER&quot;">
+                <then>
+                    <if expression="RESULT==&quot;DRAW&quot;">
+                        <then>
+                            <assign variable="TEMPRES" expression="&quot;DRAW&quot;"/>
+                        </then>
+                        <else/>
+                    </if>
+                    <assign variable="RESULT" expression="CHECKDIG2(T,n)"/>
+                    <if expression="RESULT==&quot;NOTOVER&quot;&amp;&amp;TEMPRES==&quot;DRAW&quot;">
+                        <then>
+                            <assign variable="RESULT" expression="TEMPRES"/>
+                        </then>
+                        <else/>
+                    </if>
+                </then>
+                <else/>
+            </if>
+        </body>
+    </function>
+    <function name="CHECKDIG2" type="String" variable="RESULT">
+        <parameters>
+            <parameter name="T" type="String" array="True"/>
+            <parameter name="n" type="Integer" array="False"/>
+        </parameters>
+        <body>
+            <declare name="RESULT" type="String" array="False" size=""/>
+            <declare name="i, j, sum" type="Integer" array="False" size=""/>
+            <assign variable="i" expression="0"/>
+            <assign variable="RESULT" expression="&quot;TEMP&quot;"/>
+            <assign variable="sum" expression="0"/>
+            <while expression="RESULT!=&quot;NOTOVER&quot;&amp;&amp;i&lt;n-1">
+                <assign variable="j" expression="n-1-i"/>
+                <if expression="T[n*i+j]==T[n*(i+1)+j-1]">
+                    <then>
+                        <if expression="T[n*i+j]!=&quot;_&quot;&amp;&amp;T[n*(i+1)+j-1]!=&quot;_&quot;">
+                            <then>
+                                <assign variable="RESULT" expression="&quot;OVER&quot;"/>
+                            </then>
+                            <else/>
+                        </if>
+                    </then>
+                    <else>
+                        <assign variable="RESULT" expression="&quot;NOTOVER&quot;"/>
+                    </else>
+                </if>
+                <assign variable="i" expression="i+1"/>
+            </while>
+            <if expression="RESULT==&quot;OVER&quot;">
+                <then/>
+                <else>
+                    <for variable="i" start="0" end="n-1" direction="inc" step="1">
+                        <for variable="j" start="0" end="n-1" direction="inc" step="1">
+                            <if expression="T[n*i+j]!=&quot;_&quot;">
+                                <then>
+                                    <assign variable="sum" expression="sum+1"/>
+                                </then>
+                                <else/>
+                            </if>
+                        </for>
+                    </for>
+                    <if expression="sum==(n*n)">
+                        <then>
+                            <assign variable="RESULT" expression="&quot;DRAW&quot;"/>
+                        </then>
+                        <else>
+                            <assign variable="RESULT" expression="&quot;NOTOVER&quot;"/>
+                        </else>
+                    </if>
+                </else>
+            </if>
+        </body>
+    </function>
+    <function name="CHECKROW" type="String" variable="RESULT">
+        <parameters>
+            <parameter name="T" type="String" array="True"/>
+            <parameter name="n" type="Integer" array="False"/>
+        </parameters>
+        <body>
+            <declare name="i, j, sum" type="Integer" array="False" size=""/>
+            <declare name="RESULT" type="String" array="False" size=""/>
+            <assign variable="i" expression="0"/>
+            <assign variable="RESULT" expression="&quot;TEMP&quot;"/>
+            <while expression="RESULT!=&quot;OVER&quot;&amp;&amp;RESULT!=&quot;DRAW&quot;&amp;&amp;i&lt;n">
+                <assign variable="RESULT" expression="&quot;TEMP&quot;"/>
+                <assign variable="sum" expression="0"/>
+                <assign variable="j" expression="0"/>
+                <while expression="RESULT!=&quot;NOTOVER&quot;&amp;&amp;j&lt;n-1">
+                    <if expression="T[n*i+j]==T[n*i+j+1]">
+                        <then>
+                            <if expression="T[n*i+j]!=&quot;_&quot;&amp;&amp;T[n*i+j+1]!=&quot;_&quot;">
+                                <then>
+                                    <assign variable="RESULT" expression="&quot;OVER&quot;"/>
+                                </then>
+                                <else/>
+                            </if>
+                        </then>
+                        <else>
+                            <assign variable="RESULT" expression="&quot;NOTOVER&quot;"/>
+                        </else>
+                    </if>
+                    <assign variable="j" expression="j+1"/>
+                </while>
+                <if expression="RESULT==&quot;OVER&quot;">
+                    <then/>
+                    <else>
+                        <for variable="i" start="0" end="n-1" direction="inc" step="1">
+                            <for variable="j" start="0" end="n-1" direction="inc" step="1">
+                                <if expression="T[n*i+j]!=&quot;_&quot;">
+                                    <then>
+                                        <assign variable="sum" expression="sum+1"/>
+                                    </then>
+                                    <else/>
+                                </if>
+                            </for>
+                        </for>
+                        <if expression="sum==(n*n)">
+                            <then>
+                                <assign variable="RESULT" expression="&quot;DRAW&quot;"/>
+                            </then>
+                            <else>
+                                <assign variable="RESULT" expression="&quot;NOTOVER&quot;"/>
+                            </else>
+                        </if>
+                    </else>
+                </if>
+                <assign variable="i" expression="i+1"/>
+            </while>
+        </body>
+    </function>
+    <function name="COUNTC" type="String" variable="RESULT">
+        <parameters>
+            <parameter name="T" type="String" array="True"/>
+            <parameter name="n" type="Integer" array="False"/>
+            <parameter name="pos" type="String" array="False"/>
+        </parameters>
+        <body>
+            <declare name="i, COUNT, j, row, column, FULL" type="Integer" array="False" size=""/>
+            <declare name="MOVE, RESULT, oppos" type="String" array="False" size=""/>
+            <assign variable="i" expression="0"/>
+            <assign variable="MOVE" expression="&quot;TEMP&quot;"/>
+            <assign variable="RESULT" expression="&quot;TEMP&quot;"/>
+            <while expression="i&lt;n&amp;&amp;MOVE!=&quot;OVER&quot;&amp;&amp;RESULT!=&quot;OVER&quot;">
+                <assign variable="FULL" expression="0"/>
+                <assign variable="COUNT" expression="0"/>
+                <assign variable="row" expression="i"/>
+                <for variable="j" start="0" end="n-1" direction="inc" step="1">
+                    <if expression="T[n*i+j]==pos">
+                        <then>
+                            <assign variable="COUNT" expression="COUNT+1"/>
+                        </then>
+                        <else/>
+                    </if>
+                </for>
+                <if expression="COUNT==2">
+                    <then>
+                        <for variable="j" start="0" end="n-1" direction="inc" step="1">
+                            <if expression="T[n*i+j]==&quot;_&quot;">
+                                <then>
+                                    <assign variable="column" expression="j"/>
+                                </then>
+                                <else>
+                                    <assign variable="FULL" expression="FULL+1"/>
+                                </else>
+                            </if>
+                        </for>
+                        <if expression="FULL!=3">
+                            <then>
+                                <assign variable="RESULT" expression="ASSIGN(T,n,row,column,pos)"/>
+                                <assign variable="MOVE" expression="&quot;OVER&quot;"/>
+                            </then>
+                            <else/>
+                        </if>
+                    </then>
+                    <else/>
+                </if>
+                <assign variable="i" expression="i+1"/>
+            </while>
+            <if expression="MOVE!=&quot;OVER&quot;">
+                <then>
+                    <assign variable="j" expression="0"/>
+                    <while expression="j&lt;n&amp;&amp;MOVE!=&quot;OVER&quot;&amp;&amp;RESULT!=&quot;OVER&quot;">
+                        <assign variable="FULL" expression="0"/>
+                        <assign variable="COUNT" expression="0"/>
+                        <assign variable="column" expression="j"/>
+                        <for variable="i" start="0" end="n-1" direction="inc" step="1">
+                            <if expression="T[n*i+j]==pos">
+                                <then>
+                                    <assign variable="COUNT" expression="COUNT+1"/>
+                                </then>
+                                <else/>
+                            </if>
+                        </for>
+                        <if expression="COUNT==2">
+                            <then>
+                                <for variable="i" start="0" end="n-1" direction="inc" step="1">
+                                    <if expression="T[n*i+j]==&quot;_&quot;">
+                                        <then>
+                                            <assign variable="row" expression="i"/>
+                                        </then>
+                                        <else>
+                                            <assign variable="FULL" expression="FULL+1"/>
+                                        </else>
+                                    </if>
+                                </for>
+                                <if expression="FULL!=3">
+                                    <then>
+                                        <assign variable="RESULT" expression="ASSIGN(T,n,row,column,pos)"/>
+                                        <assign variable="MOVE" expression="&quot;OVER&quot;"/>
+                                    </then>
+                                    <else/>
+                                </if>
+                            </then>
+                            <else/>
+                        </if>
+                        <assign variable="j" expression="j+1"/>
+                    </while>
+                </then>
+                <else/>
+            </if>
+            <if expression="RESULT!=&quot;OVER&quot;&amp;&amp;MOVE!=&quot;OVER&quot;">
+                <then>
+                    <if expression="pos==&quot;X&quot;">
+                        <then>
+                            <assign variable="oppos" expression="&quot;O&quot;"/>
+                        </then>
+                        <else>
+                            <assign variable="oppos" expression="&quot;X&quot;"/>
+                        </else>
+                    </if>
+                    <assign variable="RESULT" expression="COUNTO(T,n,pos,oppos)"/>
+                </then>
+                <else/>
+            </if>
+        </body>
+    </function>
+    <function name="COUNTCORN" type="String" variable="RESULT">
+        <parameters>
+            <parameter name="T" type="String" array="True"/>
+            <parameter name="n" type="Integer" array="False"/>
+            <parameter name="pos" type="String" array="False"/>
+            <parameter name="oppos" type="String" array="False"/>
+        </parameters>
+        <body>
+            <declare name="i, j, COUNTEMP, row, column" type="Integer" array="False" size=""/>
+            <declare name="RESULT, MOVE" type="String" array="False" size=""/>
+            <assign variable="COUNTEMP" expression="0"/>
+            <for variable="i" start="0" end="2" direction="inc" step="2">
+                <for variable="j" start="0" end="2" direction="inc" step="2">
+                    <if expression="T[n*i+j]==&quot;_&quot;">
+                        <then>
+                            <assign variable="COUNTEMP" expression="COUNTEMP+1"/>
+                        </then>
+                        <else/>
+                    </if>
+                </for>
+            </for>
+            <assign variable="MOVE" expression="&quot;NOT OVER&quot;"/>
+            <assign variable="RESULT" expression="&quot;NOT OVER&quot;"/>
+            <if expression="pos==&quot;O&quot;">
+                <then>
+                    <if expression="COUNTEMP==4">
+                        <then>
+                            <assign variable="row" expression="0"/>
+                            <assign variable="column" expression="0"/>
+                            <assign variable="RESULT" expression="ASSIGN(T,n,row,column,pos)"/>
+                            <assign variable="MOVE" expression="&quot;OVER&quot;"/>
+                        </then>
+                        <else>
+                            <if expression="COUNTEMP==3">
+                                <then>
+                                    <assign variable="row" expression="1"/>
+                                    <assign variable="column" expression="1"/>
+                                    <assign variable="RESULT" expression="ASSIGN(T,n,row,column,pos)"/>
+                                    <assign variable="MOVE" expression="&quot;OVER&quot;"/>
+                                </then>
+                                <else/>
+                            </if>
+                        </else>
+                    </if>
+                    <if expression="COUNTEMP&lt;3&amp;&amp;RESULT!=&quot;OVER&quot;&amp;&amp;MOVE!=&quot;OVER&quot;">
+                        <then>
+                            <assign variable="i" expression="0"/>
+                            <while expression="RESULT!=&quot;OVER&quot;&amp;&amp;i&lt;n&amp;&amp;MOVE!=&quot;OVER&quot;">
+                                <assign variable="j" expression="0"/>
+                                <while expression="j&lt;n&amp;&amp;MOVE!=&quot;OVER&quot;">
+                                    <if expression="T[n*i+j]==&quot;_&quot;">
+                                        <then>
+                                            <assign variable="row" expression="i"/>
+                                            <assign variable="column" expression="j"/>
+                                            <assign variable="RESULT" expression="ASSIGN(T,n,row,column,pos)"/>
+                                            <assign variable="MOVE" expression="&quot;OVER&quot;"/>
+                                        </then>
+                                        <else/>
+                                    </if>
+                                    <assign variable="j" expression="j+2"/>
+                                </while>
+                                <assign variable="i" expression="i+2"/>
+                            </while>
+                        </then>
+                        <else/>
+                    </if>
+                </then>
+                <else>
+                    <if expression="COUNTEMP&lt;=4&amp;&amp;RESULT!=&quot;OVER&quot;&amp;&amp;MOVE!=&quot;OVER&quot;">
+                        <then>
+                            <assign variable="i" expression="0"/>
+                            <while expression="RESULT!=&quot;0VER&quot;&amp;&amp;i&lt;n&amp;&amp;MOVE!=&quot;OVER&quot;">
+                                <assign variable="j" expression="0"/>
+                                <while expression="j&lt;n&amp;&amp;MOVE!=&quot;OVER&quot;">
+                                    <if expression="T[n*i+j]==&quot;_&quot;">
+                                        <then>
+                                            <assign variable="row" expression="i"/>
+                                            <assign variable="column" expression="j"/>
+                                            <assign variable="RESULT" expression="ASSIGN(T,n,row,column,pos)"/>
+                                            <assign variable="MOVE" expression="&quot;OVER&quot;"/>
+                                        </then>
+                                        <else/>
+                                    </if>
+                                    <assign variable="j" expression="j+2"/>
+                                </while>
+                                <assign variable="i" expression="i+2"/>
+                            </while>
+                        </then>
+                        <else/>
+                    </if>
+                </else>
+            </if>
+        </body>
+    </function>
+    <function name="COUNTD" type="String" variable="RESULT">
+        <parameters>
+            <parameter name="T" type="String" array="True"/>
+            <parameter name="n" type="Integer" array="False"/>
+            <parameter name="pos" type="String" array="False"/>
+            <parameter name="oppos" type="String" array="False"/>
+        </parameters>
+        <body>
+            <declare name="i, j, COUNTD1, COUNTD2, row, column" type="Integer" array="False" size=""/>
+            <declare name="RESULT, MOVE, mark" type="String" array="False" size=""/>
+            <assign variable="RESULT" expression="&quot;TEMP&quot;"/>
+            <assign variable="MOVE" expression="&quot;NOT OVER&quot;"/>
+            <assign variable="mark" expression="pos"/>
+            <assign variable="j" expression="0"/>
+            <do expression="mark==oppos&amp;&amp;j&lt;2">
+                <assign variable="COUNTD1" expression="0"/>
+                <assign variable="COUNTD2" expression="0"/>
+                <for variable="i" start="0" end="n-1" direction="inc" step="1">
+                    <if expression="T[n*i+i]==mark">
+                        <then>
+                            <assign variable="COUNTD1" expression="COUNTD1+1"/>
+                            <if expression="T[n*(i+1)-(i+1)]==mark">
+                                <then>
+                                    <assign variable="COUNTD2" expression="COUNTD2+1"/>
+                                </then>
+                                <else/>
+                            </if>
+                        </then>
+                        <else/>
+                    </if>
+                </for>
+                <if expression="COUNTD1==2">
+                    <then>
+                        <for variable="i" start="0" end="n-1" direction="inc" step="1">
+                            <if expression="T[n*i+i]==&quot;_&quot;">
+                                <then>
+                                    <assign variable="row" expression="i"/>
+                                    <assign variable="column" expression="i"/>
+                                    <assign variable="RESULT" expression="ASSIGN(T,n,row,column,pos)"/>
+                                    <assign variable="MOVE" expression="&quot;OVER&quot;"/>
+                                </then>
+                                <else/>
+                            </if>
+                        </for>
+                    </then>
+                    <else>
+                        <if expression="COUNTD2==2">
+                            <then>
+                                <for variable="i" start="0" end="n-1" direction="inc" step="1">
+                                    <if expression="T[n*(i+1)-i]==&quot;_&quot;">
+                                        <then>
+                                            <assign variable="row" expression="i"/>
+                                            <assign variable="column" expression="i"/>
+                                            <assign variable="RESULT" expression="ASSIGN(T,n,row,column,pos)"/>
+                                            <assign variable="MOVE" expression="&quot;OVER&quot;"/>
+                                        </then>
+                                        <else/>
+                                    </if>
+                                </for>
+                            </then>
+                            <else>
+                                <assign variable="RESULT" expression="&quot;NOT OVER&quot;"/>
+                                <assign variable="MOVE" expression="&quot;NOT OVER&quot;"/>
+                            </else>
+                        </if>
+                    </else>
+                </if>
+                <if expression="MOVE!=&quot;OVER&quot;&amp;&amp;RESULT!=&quot;OVER&quot;">
+                    <then>
+                        <assign variable="mark" expression="oppos"/>
+                    </then>
+                    <else/>
+                </if>
+                <assign variable="j" expression="j+1"/>
+            </do>
+            <if expression="MOVE!=&quot;OVER&quot;&amp;&amp;RESULT!=&quot;OVER&quot;">
+                <then>
+                    <assign variable="RESULT" expression="COUNTCORN(T,n,pos,oppos)"/>
+                </then>
+                <else/>
+            </if>
+        </body>
+    </function>
+    <function name="COUNTO" type="String" variable="RESULT">
+        <parameters>
+            <parameter name="T" type="String" array="True"/>
+            <parameter name="n" type="Integer" array="False"/>
+            <parameter name="pos" type="String" array="False"/>
+            <parameter name="oppos" type="String" array="False"/>
+        </parameters>
+        <body>
+            <declare name="i, COUNT, j, row, column, FULL" type="Integer" array="False" size=""/>
+            <declare name="MOVE, RESULT" type="String" array="False" size=""/>
+            <assign variable="i" expression="0"/>
+            <assign variable="MOVE" expression="&quot;TEMP&quot;"/>
+            <assign variable="RESULT" expression="&quot;TEMP&quot;"/>
+            <while expression="i&lt;n&amp;&amp;MOVE!=&quot;OVER&quot;&amp;&amp;RESULT!=&quot;OVER&quot;">
+                <assign variable="FULL" expression="0"/>
+                <assign variable="COUNT" expression="0"/>
+                <assign variable="row" expression="i"/>
+                <for variable="j" start="0" end="n-1" direction="inc" step="1">
+                    <if expression="T[n*i+j]==oppos">
+                        <then>
+                            <assign variable="COUNT" expression="COUNT+1"/>
+                        </then>
+                        <else/>
+                    </if>
+                </for>
+                <if expression="COUNT==2">
+                    <then>
+                        <for variable="j" start="0" end="n-1" direction="inc" step="1">
+                            <if expression="T[n*i+j]==&quot;_&quot;">
+                                <then>
+                                    <assign variable="column" expression="j"/>
+                                </then>
+                                <else>
+                                    <assign variable="FULL" expression="FULL+1"/>
+                                </else>
+                            </if>
+                        </for>
+                        <if expression="FULL!=3">
+                            <then>
+                                <assign variable="RESULT" expression="ASSIGN(T,n,row,column,pos)"/>
+                                <assign variable="MOVE" expression="&quot;OVER&quot;"/>
+                            </then>
+                            <else/>
+                        </if>
+                    </then>
+                    <else/>
+                </if>
+                <assign variable="i" expression="i+1"/>
+            </while>
+            <if expression="MOVE!=&quot;OVER&quot;">
+                <then>
+                    <assign variable="j" expression="0"/>
+                    <while expression="j&lt;n&amp;&amp;MOVE!=&quot;OVER&quot;&amp;&amp;RESULT!=&quot;OVER&quot;">
+                        <assign variable="FULL" expression="0"/>
+                        <assign variable="COUNT" expression="0"/>
+                        <assign variable="column" expression="j"/>
+                        <for variable="i" start="0" end="n-1" direction="inc" step="1">
+                            <if expression="T[n*i+j]==oppos">
+                                <then>
+                                    <assign variable="COUNT" expression="COUNT+1"/>
+                                </then>
+                                <else/>
+                            </if>
+                        </for>
+                        <if expression="COUNT==2">
+                            <then>
+                                <for variable="i" start="0" end="n-1" direction="inc" step="1">
+                                    <if expression="T[n*i+j]==&quot;_&quot;">
+                                        <then>
+                                            <assign variable="row" expression="i"/>
+                                        </then>
+                                        <else>
+                                            <assign variable="FULL" expression="FULL+1"/>
+                                        </else>
+                                    </if>
+                                </for>
+                                <if expression="FULL!=3">
+                                    <then>
+                                        <assign variable="RESULT" expression="ASSIGN(T,n,row,column,pos)"/>
+                                        <assign variable="MOVE" expression="&quot;OVER&quot;"/>
+                                    </then>
+                                    <else/>
+                                </if>
+                            </then>
+                            <else/>
+                        </if>
+                        <assign variable="j" expression="j+1"/>
+                    </while>
+                </then>
+                <else/>
+            </if>
+            <if expression="RESULT!=&quot;OVER&quot;&amp;&amp;MOVE!=&quot;OVER&quot;">
+                <then>
+                    <assign variable="RESULT" expression="COUNTD(T,n,pos,oppos)"/>
+                </then>
+                <else/>
+            </if>
+        </body>
+    </function>
+    <function name="CPLR" type="String" variable="RESULT">
+        <parameters>
+            <parameter name="T" type="String" array="True"/>
+            <parameter name="n" type="Integer" array="False"/>
+            <parameter name="pos" type="String" array="False"/>
+        </parameters>
+        <body>
+            <output expression="&quot;COMPUTER TURN&quot;" newline="True"/>
+            <declare name="RESULT" type="String" array="False" size=""/>
+            <declare name="i" type="Integer" array="False" size=""/>
+            <assign variable="i" expression="0"/>
+            <assign variable="RESULT" expression="COUNTC(T,n,pos)"/>
+        </body>
+    </function>
+    <function name="DISPLAY" type="None" variable="">
+        <parameters>
+            <parameter name="T" type="String" array="True"/>
+            <parameter name="n" type="Integer" array="False"/>
+        </parameters>
+        <body>
+            <declare name="i, j" type="Integer" array="False" size=""/>
+            <output expression="&quot;TIC-TAC-TOE&quot;" newline="True"/>
+            <output expression="&quot;  &quot;" newline="False"/>
+            <for variable="j" start="0" end="n-1" direction="inc" step="1">
+                <output expression="j&amp;&quot; &quot;" newline="False"/>
+            </for>
+            <output expression="&quot;&quot;" newline="True"/>
+            <for variable="i" start="0" end="n-1" direction="inc" step="1">
+                <output expression="i&amp;&quot; &quot;" newline="False"/>
+                <for variable="j" start="0" end="n-1" direction="inc" step="1">
+                    <output expression="T[n*i+j]&amp;&quot; &quot;" newline="False"/>
+                </for>
+                <output expression="&quot;&quot;" newline="True"/>
+            </for>
+        </body>
+    </function>
+    <function name="MainMenu" type="None" variable="">
+        <parameters/>
+        <body>
+            <declare name="option" type="Integer" array="False" size=""/>
+            <declare name="return" type="String" array="False" size=""/>
+            <output expression="&quot;******* Main Menu *******&quot;" newline="True"/>
+            <output expression="&quot;***** 1: One vs One *****&quot;" newline="True"/>
+            <output expression="&quot;*** 2: One vs Computer ***&quot;" newline="True"/>
+            <assign variable="return" expression="&quot;TEMP&quot;"/>
+            <do expression="return==&quot;Invalid&quot;">
+                <input variable="option"/>
+                <if expression="option==1">
+                    <then>
+                        <call expression="OnevsOne"/>
+                    </then>
+                    <else>
+                        <if expression="option==2">
+                            <then>
+                                <call expression="OnevsComp"/>
+                            </then>
+                            <else>
+                                <output expression="&quot;*** INVALID INPUT ***&quot;" newline="True"/>
+                                <assign variable="return" expression="&quot;Invalid&quot;"/>
+                            </else>
+                        </if>
+                    </else>
+                </if>
+            </do>
+        </body>
+    </function>
+    <function name="Match" type="None" variable="">
+        <parameters>
+            <parameter name="Pos1" type="String" array="False"/>
+            <parameter name="Pos2" type="String" array="False"/>
+            <parameter name="Name1" type="String" array="False"/>
+            <parameter name="Name2" type="String" array="False"/>
+        </parameters>
+        <body>
+            <output expression="&quot;Enter Number of Rounds&quot;" newline="True"/>
+            <declare name="rounds, R, Scr1, Scr2" type="Integer" array="False" size=""/>
+            <input variable="rounds"/>
+            <output expression="&quot;*** It's Important to read the instructions ***&quot;" newline="True"/>
+            <call expression="Rules"/>
+            <output expression="&quot;********** Let's Begin **********&quot;" newline="True"/>
+            <declare name="Winner" type="String" array="False" size=""/>
+            <assign variable="Scr1" expression="0"/>
+            <assign variable="Scr2" expression="0"/>
+            <for variable="R" start="1" end="rounds" direction="inc" step="1">
+                <output expression="&quot;ROUND &quot;&amp;R" newline="True"/>
+                <declare name="n, i, j" type="Integer" array="False" size=""/>
+                <if expression="Name1==&quot;Computer&quot;||Name2==&quot;Computer&quot;">
+                    <then>
+                        <assign variable="n" expression="3"/>
+                    </then>
+                    <else>
+                        <output expression="&quot;PLEASE MENTION YOUR PREFERRED GRID LENGTH&quot;" newline="True"/>
+                        <input variable="n"/>
+                    </else>
+                </if>
+                <declare name="T" type="String" array="True" size="n*n"/>
+                <for variable="i" start="0" end="(n*n)-1" direction="inc" step="1">
+                    <assign variable="T[i]" expression="&quot;_&quot;"/>
+                </for>
+                <call expression="DISPLAY(T,n)"/>
+                <if expression="Name2!=&quot;Computer&quot;&amp;&amp;Name1!=&quot;Computer&quot;">
+                    <then>
+                        <assign variable="Winner" expression="RESULT(Name1,Name2,T,n)"/>
+                    </then>
+                    <else>
+                        <assign variable="Winner" expression="RESULTC(Name1,Name2,T,n)"/>
+                    </else>
+                </if>
+                <if expression="Winner==Name1">
+                    <then>
+                        <assign variable="Scr1" expression="Scr1+1"/>
+                    </then>
+                    <else>
+                        <if expression="Winner==Name2">
+                            <then>
+                                <assign variable="Scr2" expression="Scr2+1"/>
+                            </then>
+                            <else/>
+                        </if>
+                    </else>
+                </if>
+                <output expression="&quot;****************************************&quot;" newline="True"/>
+                <output expression="Name1&amp;&quot; : &quot;&amp;Scr1" newline="True"/>
+                <output expression="Name2&amp;&quot; : &quot;&amp;Scr2" newline="True"/>
+                <output expression="&quot;****************************************&quot;" newline="True"/>
+            </for>
+            <if expression="Scr1&gt;Scr2">
+                <then>
+                    <output expression="&quot;****************************************&quot;" newline="True"/>
+                    <output expression="&quot;*** &quot;&amp;Name1&amp;&quot; is the WINNER of the TOURNAMENT ***&quot;" newline="True"/>
+                    <output expression="&quot;****************************************&quot;" newline="True"/>
+                </then>
+                <else>
+                    <if expression="Scr2&gt;Scr1">
+                        <then>
+                            <output expression="&quot;****************************************&quot;" newline="True"/>
+                            <output expression="&quot;*** &quot;&amp;Name2&amp;&quot; is the WINNER of the TOURNAMENT ***&quot;" newline="True"/>
+                            <output expression="&quot;****************************************&quot;" newline="True"/>
+                        </then>
+                        <else>
+                            <output expression="&quot;****************************************&quot;" newline="True"/>
+                            <output expression="&quot;*** &quot;&amp;Name1&amp;&quot; and &quot;&amp;Name2&amp;&quot; is the WINNER of the TOURNAMENT ***&quot;" newline="True"/>
+                            <output expression="&quot;****************************************&quot;" newline="True"/>
+                        </else>
+                    </if>
+                </else>
+            </if>
+        </body>
+    </function>
+    <function name="OnevsComp" type="None" variable="">
+        <parameters/>
+        <body>
+            <declare name="Player1, Player2" type="String" array="False" size=""/>
+            <output expression="&quot;*** Please Enter your Name ***&quot;" newline="True"/>
+            <input variable="Player1"/>
+            <assign variable="Player2" expression="&quot;Computer&quot;"/>
+            <call expression="TOSS(Player1,Player2)"/>
+        </body>
+    </function>
+    <function name="OnevsOne" type="None" variable="">
+        <parameters/>
+        <body>
+            <declare name="Player1, Player2" type="String" array="False" size=""/>
+            <output expression="&quot;*** Please Enter your Name ***&quot;" newline="True"/>
+            <input variable="Player1"/>
+            <input variable="Player2"/>
+            <call expression="TOSS(Player1,Player2)"/>
+        </body>
+    </function>
+    <function name="PLR1" type="String" variable="RESULT">
+        <parameters>
+            <parameter name="T" type="String" array="True"/>
+            <parameter name="n" type="Integer" array="False"/>
+        </parameters>
+        <body>
+            <output expression="&quot;PLAYER 1 TURN&quot;" newline="True"/>
+            <declare name="row, column" type="Integer" array="False" size=""/>
+            <declare name="RESULT, QUERY" type="String" array="False" size=""/>
+            <do expression="QUERY==&quot;INVALID&quot;">
+                <input variable="row"/>
+                <input variable="column"/>
+                <assign variable="QUERY" expression="&quot;TEMP&quot;"/>
+                <if expression="T[n*row+column]==&quot;_&quot;">
+                    <then>
+                        <assign variable="T[n*row+column]" expression="&quot;X&quot;"/>
+                        <assign variable="RESULT" expression="CHECK(T,n)"/>
+                    </then>
+                    <else>
+                        <output expression="&quot;INVALID INPUT PLEASE ENTER AGAIN&quot;" newline="True"/>
+                        <assign variable="QUERY" expression="&quot;INVALID&quot;"/>
+                    </else>
+                </if>
+            </do>
+        </body>
+    </function>
+    <function name="PLR2" type="String" variable="RESULT">
+        <parameters>
+            <parameter name="T" type="String" array="True"/>
+            <parameter name="n" type="Integer" array="False"/>
+        </parameters>
+        <body>
+            <output expression="&quot;PLAYER 2 TURN&quot;" newline="True"/>
+            <declare name="row, column" type="Integer" array="False" size=""/>
+            <declare name="RESULT, QUERY" type="String" array="False" size=""/>
+            <do expression="QUERY==&quot;INVALID&quot;">
+                <input variable="row"/>
+                <input variable="column"/>
+                <assign variable="QUERY" expression="&quot;TEMP&quot;"/>
+                <if expression="T[n*row+column]==&quot;_&quot;">
+                    <then>
+                        <assign variable="T[n*row+column]" expression="&quot;O&quot;"/>
+                        <assign variable="RESULT" expression="CHECK(T,n)"/>
+                    </then>
+                    <else>
+                        <output expression="&quot;INVALID INPUT PLEASE ENTER AGAIN&quot;" newline="False"/>
+                        <assign variable="QUERY" expression="&quot;INVALID&quot;"/>
+                    </else>
+                </if>
+            </do>
+        </body>
+    </function>
+    <function name="RESULT" type="String" variable="Name">
+        <parameters>
+            <parameter name="Name1" type="String" array="False"/>
+            <parameter name="Name2" type="String" array="False"/>
+            <parameter name="T" type="String" array="True"/>
+            <parameter name="n" type="Integer" array="False"/>
+        </parameters>
+        <body>
+            <declare name="RESULT, Name" type="String" array="False" size=""/>
+            <declare name="Scr" type="Integer" array="True" size="2"/>
+            <assign variable="Scr[0]" expression="0"/>
+            <assign variable="Scr[1]" expression="0"/>
+            <do expression="RESULT!=&quot;OVER&quot;&amp;&amp;RESULT!=&quot;DRAW&quot;">
+                <assign variable="RESULT" expression="PLR1(T,n)"/>
+                <assign variable="Name" expression="Name1"/>
+                <call expression="DISPLAY(T,n)"/>
+                <if expression="RESULT!=&quot;OVER&quot;&amp;&amp;RESULT!=&quot;DRAW&quot;">
+                    <then>
+                        <assign variable="RESULT" expression="PLR2(T,n)"/>
+                        <assign variable="Name" expression="Name2"/>
+                        <call expression="DISPLAY(T,n)"/>
+                    </then>
+                    <else/>
+                </if>
+                <if expression="RESULT==&quot;DRAW&quot;">
+                    <then>
+                        <output expression="&quot;GAME IS A DRAW&quot;" newline="True"/>
+                        <assign variable="Name" expression="&quot;None&quot;"/>
+                    </then>
+                    <else/>
+                </if>
+                <if expression="RESULT==&quot;OVER&quot;">
+                    <then>
+                        <output expression="&quot;Congrats &quot;&amp;Name&amp;&quot; You won the game&quot;" newline="True"/>
+                    </then>
+                    <else/>
+                </if>
+            </do>
+        </body>
+    </function>
+    <function name="RESULTC" type="String" variable="NAME">
+        <parameters>
+            <parameter name="Name1" type="String" array="False"/>
+            <parameter name="Name2" type="String" array="False"/>
+            <parameter name="T" type="String" array="True"/>
+            <parameter name="n" type="Integer" array="False"/>
+        </parameters>
+        <body>
+            <declare name="RESULT, Name, pos" type="String" array="False" size=""/>
+            <declare name="Scr" type="Integer" array="True" size="2"/>
+            <assign variable="Scr[0]" expression="0"/>
+            <assign variable="Scr[1]" expression="0"/>
+            <do expression="RESULT!=&quot;OVER&quot;&amp;&amp;RESULT!=&quot;DRAW&quot;">
+                <if expression="Name1==&quot;Computer&quot;">
+                    <then>
+                        <assign variable="pos" expression="&quot;X&quot;"/>
+                        <assign variable="RESULT" expression="CPLR(T,n,pos)"/>
+                        <assign variable="Name" expression="Name1"/>
+                        <call expression="DISPLAY(T,n)"/>
+                        <if expression="RESULT!=&quot;OVER&quot;&amp;&amp;RESULT!=&quot;DRAW&quot;">
+                            <then>
+                                <assign variable="RESULT" expression="PLR2(T,n)"/>
+                                <assign variable="Name" expression="Name2"/>
+                                <call expression="DISPLAY(T,n)"/>
+                            </then>
+                            <else/>
+                        </if>
+                        <if expression="RESULT==&quot;DRAW&quot;">
+                            <then>
+                                <output expression="&quot;GAME IS A DRAW&quot;" newline="True"/>
+                                <assign variable="Name" expression="&quot;None&quot;"/>
+                            </then>
+                            <else/>
+                        </if>
+                        <if expression="RESULT==&quot;OVER&quot;">
+                            <then>
+                                <output expression="&quot;Congrats &quot;&amp;Name&amp;&quot; You won the game&quot;" newline="True"/>
+                            </then>
+                            <else/>
+                        </if>
+                    </then>
+                    <else>
+                        <assign variable="pos" expression="&quot;O&quot;"/>
+                        <assign variable="RESULT" expression="PLR1(T,n)"/>
+                        <assign variable="Name" expression="Name1"/>
+                        <call expression="DISPLAY(T,n)"/>
+                        <if expression="RESULT!=&quot;OVER&quot;&amp;&amp;RESULT!=&quot;DRAW&quot;">
+                            <then>
+                                <assign variable="RESULT" expression="CPLR(T,n,pos)"/>
+                                <assign variable="Name" expression="Name2"/>
+                                <call expression="DISPLAY(T,n)"/>
+                            </then>
+                            <else/>
+                        </if>
+                        <if expression="RESULT==&quot;DRAW&quot;">
+                            <then>
+                                <output expression="&quot;GAME IS A DRAW&quot;" newline="True"/>
+                                <assign variable="Name" expression="&quot;None&quot;"/>
+                            </then>
+                            <else/>
+                        </if>
+                        <if expression="RESULT==&quot;OVER&quot;">
+                            <then>
+                                <output expression="&quot;Congrats &quot;&amp;Name&amp;&quot; You won the game&quot;" newline="True"/>
+                            </then>
+                            <else/>
+                        </if>
+                    </else>
+                </if>
+            </do>
+        </body>
+    </function>
+    <function name="Rules" type="None" variable="">
+        <parameters/>
+        <body>
+            <output expression="&quot;1. The game is played on a grid that's n squares by n squares&quot;" newline="True"/>
+            <output expression="&quot;2. You are X, your friend (or the computer in this case) is O. Players take turns putting their marks in empty squares.&quot;" newline="True"/>
+            <output expression="&quot;3. Player assigned as X Starts first&quot;" newline="True"/>
+            <output expression="&quot;4. The first player to get n marks in a row (up, down, across, or diagonally) is the winner.&quot;" newline="True"/>
+            <output expression="&quot;5. If it's a draw NO POINTS is provided&quot;" newline="True"/>
+            <output expression="&quot;6. When all nxn squares are full, the game is over.&quot;" newline="True"/>
+        </body>
+    </function>
+    <function name="TOSS" type="None" variable="">
+        <parameters>
+            <parameter name="Player1" type="String" array="False"/>
+            <parameter name="Player2" type="String" array="False"/>
+        </parameters>
+        <body>
+            <declare name="Option, RandOption" type="Integer" array="False" size=""/>
+            <declare name="Pos1, Pos2, temp" type="String" array="False" size=""/>
+            <output expression="&quot;*** 0:HEAD ***&quot;" newline="True"/>
+            <output expression="&quot;*** 1:TAIL ***&quot;" newline="True"/>
+            <output expression="Player1&amp;&quot; CHOOSE ANY ONE OPTION&quot;" newline="True"/>
+            <input variable="option"/>
+            <assign variable="RandOption" expression="Random(2)"/>
+            <if expression="Option==RandOption">
+                <then>
+                    <output expression="Player1&amp;&quot; Won the toss and You are Assigned as X and &quot;&amp;Player2&amp;&quot; is Assigned as O&quot;" newline="True"/>
+                    <assign variable="Pos1" expression="&quot;X&quot;"/>
+                    <assign variable="Pos2" expression="&quot;O&quot;"/>
+                </then>
+                <else>
+                    <output expression="Player1&amp;&quot; Lost the toss and You are Assigned as O and &quot;&amp;Player2&amp;&quot; is Assigned as X&quot;" newline="True"/>
+                    <assign variable="Pos1" expression="&quot;O&quot;"/>
+                    <assign variable="Pos2" expression="&quot;X&quot;"/>
+                    <assign variable="temp" expression="Player1"/>
+                    <assign variable="Player1" expression="Player2"/>
+                    <assign variable="Player2" expression="temp"/>
+                </else>
+            </if>
+            <output expression="&quot;Player 1 (X) : &quot;&amp;Player1" newline="True"/>
+            <output expression="&quot;Player 2 (O) : &quot;&amp;Player2" newline="True"/>
+            <call expression="Match(Pos1,Pos2,Player1,Player2)"/>
+        </body>
+    </function>
+</flowgorithm>
