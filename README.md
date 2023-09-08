@@ -12,3 +12,6 @@ Then they would asked to select how many rounds they want to play this game a
 The program should display winner of each game at the end of the game itself. 
 It should count the games won by each player without considering draw matches and should declare the winner as the most won player out of two and congratulate the winner. 
 If the information provided by the user at any stage of the program is invalid, the program should re-prompt until valid information is provided.
+
+# Using Flogarithm 
+This project also has a Tic Tac Toe game created using Flogarithm Software. It allows two players to take turns and play the classic game of Tic Tac Toe on the computer.
